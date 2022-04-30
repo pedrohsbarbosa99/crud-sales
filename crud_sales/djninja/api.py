@@ -18,6 +18,7 @@ def sales_by_state(request):
         Sale.objects.values("state")
         .annotate(total_price=Sum("total"))
         .order_by("total_price")
+        .filter(status="COMPRA")
     )
     data = [
         {"state": item["state"], "total": float(item["total_price"])} for item in sales
