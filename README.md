@@ -10,7 +10,7 @@
 * Rode as migrações.
 
 ```
-git clone ...
+git clone git@github.com:pedrohsbarbosa99/crud-sales.git
 cd crud-sales
 python -m venv .venv
 source .venv/bin/activate
