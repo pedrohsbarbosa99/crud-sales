@@ -13,7 +13,7 @@ from crud_sales.core.models import Sale
 def build_data(row):
     sale_date = datetime.strptime(f"{row[2]} {row[3]}", "%Y-%m-%d %H:%M")
     return {
-        "sale_id": row[1],
+        "sale_id": int(f"{row[0]}{row[1]}"),
         "created_at": make_aware(sale_date),
         "total": row[4],
         "status": row[5],
@@ -43,5 +43,5 @@ class Command(BaseCommand):
                     except ValueError:
                         pass
                     sales.append(Sale(**data))
-
+        
         Sale.objects.bulk_create(sales)
