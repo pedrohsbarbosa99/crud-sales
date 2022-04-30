@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path
 
 from crud_sales.core.views import home
+from crud_sales.djninja.api import api
 
 urlpatterns = [
     path('', home),
+    path('api/', api.urls),
     path('admin/', admin.site.urls),
 ]
