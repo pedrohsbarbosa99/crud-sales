@@ -11,7 +11,7 @@
 
 ```
 git clone ...
-cd seletivo-backend-napp
+cd crud-sales
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements-dev.txt
