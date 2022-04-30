@@ -1,15 +1,78 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Title Here!</title>
-    <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}">
-    <!-- CSS only -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-</head>
-<body>
-    <h1>Hello World!</h1>
-</body>
-</html>
+{% block content %}
+<div class="text-center mt5-pt-5">
+    <h1>Grafico de vendas</h1>
+    <a href="/api/download_csv">
+        <button type="button" class="btn btn-primary">Download em csv</button>
+    </a>   
+    
+</div>
+<div class="row">
+    <div class="col-sm-9">
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+</div>
+{% endblock content %}
+
+
+{% block js %}
+<script>
+
+
+
+$.ajax({
+    url: '/api/sales_by_state',
+    success: function(response){
+        let mylabels = response.map(function(e){
+            return e.state;
+        })
+        let myvalues = response.map(function(e){
+            return e.total;
+        })
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var config = {
+            type: 'bar',
+            data: {
+                labels: mylabels,
+                datasets: [{
+                    label: 'Total de vendas por estado',
+                    data: myvalues,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+
+        } 
+        var myChart = new Chart(ctx, config)          
+
+    }
+});
+
+    
+
+</script>
+{% endblock js %}
+
