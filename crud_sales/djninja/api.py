@@ -48,8 +48,8 @@ def download_csv(request):
 
 
 @api.get("/sales", response=List[SaleSchema])
-def get_sales(request):
-    return Sale.objects.all()
+def get_sales(request, limit: int = 100):
+    return Sale.objects.all()[:limit]
 
 
 @api.get("/sales/{sale_id}", response={200: SaleSchema, 404: NotFoundSchema})
