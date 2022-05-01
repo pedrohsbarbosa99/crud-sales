@@ -1,12 +1,12 @@
 from .fixtures import client, single_sale, expected_sale
-import json
+
 
 def test_get_sales_by_state(client, single_sale):
     response = client.get('/api/sales_by_state')
     expected_json = [
         {"state": "Pará", "total": float(100.99)}
     ]
-    assert json.loads(response.content) == expected_json
+    assert response.json() == expected_json
     assert response.status_code == 200
 
 def test_get_download_csv(client):
@@ -15,12 +15,12 @@ def test_get_download_csv(client):
 
 def test_get_sales(client, expected_sale):
     response = client.get('/api/sales')
-    assert json.loads(response.content) == [expected_sale]
+    assert response.json() == [expected_sale]
     assert response.status_code == 200
 
 def test_get_sing_sale(client, db, expected_sale):
     response = client.get(f'/api/sales/123')
-    assert json.loads(response.content) == expected_sale
+    assert response.json() == expected_sale
     assert response.status_code == 200
 
 def test_create_sale(db, client):
