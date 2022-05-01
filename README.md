@@ -20,4 +20,9 @@ python contrib/env_gen.py
 python manage.py migrate
 python manage.py populate_db
 python manage.py createsuperuser --username="admin" --email=""
+python manage.py runserver
 ```
+
+### Siga para doc interativa
+
+<a href="http://127.0.0.1:8000/api/docs" target="_blank">http://127.0.0.1:8000/api/docs</a>
