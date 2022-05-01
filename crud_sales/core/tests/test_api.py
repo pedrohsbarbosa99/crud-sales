@@ -2,7 +2,7 @@ from .fixtures import client, expected_sale, single_sale
 
 
 def test_get_sales_by_state(client):
-    response = client.get("/api/sales_by_state")
+    response = client.get("/api/sales/state")
     expected_json = [{"state": "Pará", "total": float(100.99)}]
     assert response.json() == expected_json
     assert response.status_code == 200

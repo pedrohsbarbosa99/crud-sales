@@ -13,7 +13,7 @@ from crud_sales.djninja.schema import NotFoundSchema, SaleByStateSchema, SaleSch
 api = NinjaAPI()
 
 
-@api.get("/sales_by_state", response=List[SaleByStateSchema])
+@api.get("/sales/state", response=List[SaleByStateSchema])
 def sales_by_state(request):
     sales = (
         Sale.objects.values("state")

@@ -22,7 +22,7 @@
 
 
 $.ajax({
-    url: '/api/sales_by_state',
+    url: '/api/sales/state',
     success: function(response){
         let mylabels = response.map(function(e){
             return e.state;
