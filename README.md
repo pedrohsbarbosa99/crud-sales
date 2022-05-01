@@ -9,6 +9,8 @@
 * Rodar o en_gen para gerar o arquivo .env
 * Rode as migrações.
 * Popule o banco de dados com dados ficticios
+* Rode os testes
+* execute a aplicação
 
 ```
 git clone git@github.com:pedrohsbarbosa99/crud-sales.git
@@ -20,8 +22,12 @@ python contrib/env_gen.py
 python manage.py migrate
 python manage.py populate_db
 python manage.py createsuperuser --username="admin" --email=""
+pytest
 python manage.py runserver
 ```
+
+## Na pagina inicial há um grafico com vendas por estado.
+<a href="http://127.0.0.1:8000"></a>
 
 ### Siga para doc interativa
 
