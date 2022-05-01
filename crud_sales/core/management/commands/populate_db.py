@@ -14,7 +14,7 @@ from crud_sales.core.models import Sale
 def build_data(row):
     sale_date = datetime.strptime(f"{row[2]} {row[3]}", "%Y-%m-%d %H:%M")
     return {
-        "sale_id": int(f"{row[0]}{row[1]}"),
+        "id": int(f"{row[0]}{row[1]}"),
         "created_at": make_aware(sale_date),
         "total": row[4],
         "status": row[5],
@@ -42,7 +42,7 @@ class Command(BaseCommand):
                 if len(row) == 8 and row[1].isdigit():
                     try:
                         data = build_data(row)
-                        sale_id = data["sale_id"]
+                        sale_id = data["id"]
                     except ValueError:
                         pass
                     if sale_id not in iserted_sales:
