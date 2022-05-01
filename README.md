@@ -26,8 +26,8 @@ pytest
 python manage.py runserver
 ```
 
-## Na pagina inicial há um grafico com vendas por estado.
-<a href="http://127.0.0.1:8000"></a>
+### Na pagina inicial há um grafico com vendas por estado.
+<a href="http://127.0.0.1:8000">Home</a>
 
 ### Siga para doc interativa
 
