@@ -66,7 +66,7 @@ def create_sale(request, data: SaleSchema):
         qs = Sale.objects.create(**data.dict())
     except IntegrityError as e:
         return {"Failed": "Sale id already exists"}    
-    return {"sale": qs.sale_id}
+    return {"sale": qs.id}
 
 
 @api.put("/sales/{sale_id}")
