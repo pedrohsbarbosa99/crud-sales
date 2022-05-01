@@ -2,11 +2,10 @@ import csv
 from typing import List
 
 from django.db.models import Sum
+from django.db.utils import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from ninja import NinjaAPI
-
-from django.db.utils import IntegrityError
 
 from crud_sales.core.models import Sale
 from crud_sales.djninja.schema import NotFoundSchema, SaleByStateSchema, SaleSchema

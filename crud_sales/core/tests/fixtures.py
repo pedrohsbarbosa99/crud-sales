@@ -1,11 +1,13 @@
-from django.test import Client
-import pytest
-from crud_sales.core.models import Sale
-from django.utils.timezone import make_aware
 from datetime import datetime
 
+import pytest
+from django.test import Client
+from django.utils.timezone import make_aware
 
-@pytest.fixture(scope='module', autouse=True)
+from crud_sales.core.models import Sale
+
+
+@pytest.fixture(scope="module", autouse=True)
 def expected_sale():
     return {
         "id": 123,
@@ -15,7 +17,6 @@ def expected_sale():
         "products_count": 5,
         "state": "Pará",
     }
-
 
 
 @pytest.fixture(autouse=True)

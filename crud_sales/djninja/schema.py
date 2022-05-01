@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from ninja import Schema
 
 
@@ -10,9 +11,11 @@ class SaleSchema(Schema):
     products_count: int
     state: str
 
+
 class SaleByStateSchema(Schema):
     total: float
     state: str
+
 
 class NotFoundSchema(Schema):
     message: str
