@@ -5,7 +5,7 @@ from django.utils.timezone import make_aware
 from datetime import datetime
 
 
-@pytest.fixture
+@pytest.fixture(scope='module', autouse=True)
 def expected_sale():
     return {
         "id": 123,

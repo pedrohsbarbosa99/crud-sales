@@ -57,7 +57,7 @@ def get_sale(request, sale_id: int):
     try:
         return Sale.objects.get(id=sale_id)
     except Sale.DoesNotExist as e:
-        return 404, {"message": "Sale does not exist"}
+        return 404, {"message": f"Sale does not exist"}
 
 
 @api.post("/sales")
