@@ -9,7 +9,7 @@ from ninja import NinjaAPI
 from django.db.utils import IntegrityError
 
 from crud_sales.core.models import Sale
-from crud_sales.djninja.schema import SaleByStateSchema, SaleSchema
+from crud_sales.djninja.schema import NotFoundSchema, SaleByStateSchema, SaleSchema
 
 api = NinjaAPI()
 
@@ -55,9 +55,13 @@ def download_csv(request):
 def get_sales(request):
     return Sale.objects.all()
 
-@api.get("/sales/{sale_id}", response=SaleSchema)
+
+@api.get("/sales/{sale_id}", response={200: SaleSchema, 404: NotFoundSchema})
 def get_sale(request, sale_id: int):
-    return Sale.objects.get(id=sale_id)
+    try:
+        return Sale.objects.get(id=sale_id)
+    except Sale.DoesNotExist as e:
+        return 404, {"message": "Sale does not exist"}
 
 
 @api.post("/sales")
@@ -65,7 +69,7 @@ def create_sale(request, data: SaleSchema):
     try:
         qs = Sale.objects.create(**data.dict())
     except IntegrityError as e:
-        return {"Failed": "Sale id already exists"}    
+        return {"Failed": "Sale id already exists"}
     return {"sale": qs.id}
 
 
