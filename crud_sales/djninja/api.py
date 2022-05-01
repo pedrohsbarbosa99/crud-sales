@@ -34,18 +34,14 @@ def download_csv(request):
         content_type="text/csv",
         headers={"Content-Disposition": 'attachment; filename="sales.csv"'},
     )
-
     writer = csv.writer(response)
-    sales = Sale.objects.all()
+    sales = sales_by_state(request)
+    writer.writerow(["Estado", "Total vendido"])
     for sale in sales:
         writer.writerow(
             [
-                sale.id,
-                sale.created_at,
-                sale.total,
-                sale.status,
-                sale.products_count,
-                sale.state,
+                sale["state"],
+                sale["total"],
             ]
         )
     return response
