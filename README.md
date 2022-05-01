@@ -32,3 +32,5 @@ python manage.py runserver
 ### Siga para doc interativa
 
 <a href="http://127.0.0.1:8000/api/docs" target="_blank">http://127.0.0.1:8000/api/docs</a>
+
+### Caso seja necesssario adicionar venda de forma visual, acessar a aba admin
