@@ -6,6 +6,8 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from ninja import NinjaAPI
 
+from django.db.utils import IntegrityError
+
 from crud_sales.core.models import Sale
 from crud_sales.djninja.schema import SaleByStateSchema, SaleSchema
 
@@ -38,7 +40,7 @@ def download_csv(request):
     for sale in sales:
         writer.writerow(
             [
-                sale.sale_id,
+                sale.id,
                 sale.created_at,
                 sale.total,
                 sale.status,
@@ -55,18 +57,21 @@ def get_sales(request):
 
 @api.get("/sales/{sale_id}", response=SaleSchema)
 def get_sale(request, sale_id: int):
-    return Sale.objects.get(sale_id=sale_id)
+    return Sale.objects.get(id=sale_id)
 
 
 @api.post("/sales")
 def create_sale(request, data: SaleSchema):
-    qs = Sale.objects.create(**data.dict())
+    try:
+        qs = Sale.objects.create(**data.dict())
+    except IntegrityError as e:
+        return {"Failed": "Sale id already exists"}    
     return {"sale": qs.sale_id}
 
 
 @api.put("/sales/{sale_id}")
 def update_sale(request, sale_id: int, payload: SaleSchema):
-    sale = get_object_or_404(Sale, sale_id=sale_id)
+    sale = get_object_or_404(Sale, id=sale_id)
     for attr, value in payload.dict().items():
         if value:
             setattr(sale, attr, value)
@@ -76,5 +81,5 @@ def update_sale(request, sale_id: int, payload: SaleSchema):
 
 @api.delete("/sales/{sale_id}")
 def delete_sale(request, sale_id: int):
-    Sale.objects.filter(sale_id=sale_id).delete()
+    Sale.objects.filter(id=sale_id).delete()
     return {"Success": sale_id}

@@ -5,6 +5,7 @@ import os
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils.timezone import make_aware
+from django.db.utils import IntegrityError
 
 
 from crud_sales.core.models import Sale
@@ -33,6 +34,7 @@ class Command(BaseCommand):
         )
 
         sales = []
+        iserted_sales = []
         with open(datafile) as file:
             reader = csv.reader(file)
             skip_rows(reader, rows=3)
@@ -40,8 +42,13 @@ class Command(BaseCommand):
                 if len(row) == 8 and row[1].isdigit():
                     try:
                         data = build_data(row)
+                        sale_id = data["sale_id"]
                     except ValueError:
                         pass
-                    sales.append(Sale(**data))
-        
-        Sale.objects.bulk_create(sales)
+                    if sale_id not in iserted_sales:
+                        sales.append(Sale(**data))
+                    iserted_sales.append(sale_id)
+        try:
+            Sale.objects.bulk_create(sales)
+        except IntegrityError:
+            print("banco ja populado")

@@ -3,7 +3,7 @@ from ninja import Schema
 
 
 class SaleSchema(Schema):
-    sale_id: int
+    id: int
     created_at: datetime
     total: float
     status: str
