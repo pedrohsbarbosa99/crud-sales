@@ -1,6 +1,5 @@
 from django.db import models
 class Sale(models.Model):
-    id = models.IntegerField(primary_key=True, unique=True)
     created_at = models.DateTimeField(verbose_name='Data de Criacao')
     total = models.FloatField(verbose_name="Total venda")
     status = models.CharField(max_length=50, verbose_name="Status Venda")

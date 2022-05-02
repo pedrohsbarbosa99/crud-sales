@@ -29,7 +29,6 @@ def test_create_sale(client):
     response = client.post(
         f"/api/sales",
         data={
-            "id": 1234564,
             "created_at": "2022-05-01T10:53:30.121Z",
             "total": 0,
             "status": "string",
@@ -39,22 +38,6 @@ def test_create_sale(client):
         content_type="application/json",
     )
     assert response.status_code == 200
-
-
-def test_create_sale_must_return_message_if_already_exist(client):
-    response = client.post(
-        f"/api/sales",
-        data={
-            "id": 123,
-            "created_at": "2022-05-01T10:53:30.121Z",
-            "total": 0,
-            "status": "string",
-            "products_count": 0,
-            "state": "string",
-        },
-        content_type="application/json",
-    )
-    assert response.json() == {"Failed": "Sale id already exists"}
 
 
 def test_update_sale(client):

@@ -10,7 +10,7 @@ from crud_sales.core.models import Sale
 @pytest.fixture(scope="module", autouse=True)
 def expected_sale():
     return {
-        "id": 123,
+        'id': 123,
         "created_at": "2022-01-01T00:00:00Z",
         "total": 100.99,
         "status": "COMPRA",

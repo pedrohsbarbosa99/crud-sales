@@ -2,13 +2,12 @@ import csv
 from typing import List
 
 from django.db.models import Sum
-from django.db.utils import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from ninja import NinjaAPI
 
 from crud_sales.core.models import Sale
-from crud_sales.djninja.schema import NotFoundSchema, SaleByStateSchema, SaleSchema
+from crud_sales.djninja.schema import NotFoundSchema, SaleByStateSchema, SaleIdSchema, SaleSchema
 
 api = NinjaAPI()
 
@@ -40,18 +39,18 @@ def download_csv(request):
         writer.writerow(
             [
                 sale["state"],
-                sale["total"],
+                round(sale["total"], 2),
             ]
         )
     return response
 
 
-@api.get("/sales", response=List[SaleSchema])
+@api.get("/sales", response=List[SaleIdSchema])
 def get_sales(request, limit: int = 100):
     return Sale.objects.all()[:limit]
 
 
-@api.get("/sales/{sale_id}", response={200: SaleSchema, 404: NotFoundSchema})
+@api.get("/sales/{sale_id}", response={200: SaleIdSchema, 404: NotFoundSchema})
 def get_sale(request, sale_id: int):
     try:
         return Sale.objects.get(id=sale_id)
@@ -61,15 +60,12 @@ def get_sale(request, sale_id: int):
 
 @api.post("/sales")
 def create_sale(request, data: SaleSchema):
-    try:
-        qs = Sale.objects.create(**data.dict())
-    except IntegrityError as e:
-        return {"Failed": "Sale id already exists"}
+    qs = Sale.objects.create(**data.dict())
     return {"sale": qs.id}
 
 
 @api.put("/sales/{sale_id}")
-def update_sale(request, sale_id: int, payload: SaleSchema):
+def update_sale(request, sale_id: int, payload: SaleIdSchema):
     sale = get_object_or_404(Sale, id=sale_id)
     for attr, value in payload.dict().items():
         if value:
