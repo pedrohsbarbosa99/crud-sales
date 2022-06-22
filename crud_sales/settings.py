@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "crud_sales.core",
+    "ninja_jwt",
+    "ninja_extra",
 ]
 
 MIDDLEWARE = [
